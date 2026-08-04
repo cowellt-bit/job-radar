@@ -163,6 +163,9 @@ def fetch_workday_jobs(company: dict) -> list[dict]:
             if not postings:
                 break
             for p in postings:
+                if "externalPath" not in p or "title" not in p:
+                    print(f"[warn] Skipping malformed {company['name']} posting: {p}")
+                    continue
                 jobs.append({
                     "id": f"workday:{company['tenant']}:{p['externalPath']}",
                     "title": p["title"],
